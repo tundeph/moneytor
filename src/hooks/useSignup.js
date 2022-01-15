@@ -22,7 +22,7 @@ export const useSignup = () => {
       }
 
       //add displayName to user
-      await res.user.updateProfiel({ displayName });
+      await res.user.updateProfile({ displayName });
 
       setIsPending(false);
       setError(null);
