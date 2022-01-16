@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState } from "react"
+import { useFirestore } from "../hooks/useFirestore"
 
 const TransactionForm = () => {
-  const [name, setName] = useState("");
-  const [amount, setAmount] = useState("");
+  const [name, setName] = useState("")
+  const [amount, setAmount] = useState("")
+  const { addDocument, response } = useFirestore("transactions")
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(name, amount);
-  };
+    e.preventDefault()
+    addDocument({ name, amount })
+  }
 
   return (
     <>
@@ -36,7 +38,7 @@ const TransactionForm = () => {
         <button>Add Transaction </button>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default TransactionForm;
+export default TransactionForm
