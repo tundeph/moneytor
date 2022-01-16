@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useLogin } from "../../hooks/useLogin";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 //styles
 import styles from "./Login.module.css";
@@ -6,10 +8,13 @@ import styles from "./Login.module.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login, error, isPending } = useLogin();
+  const { user } = useAuthContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email, password);
+    // console.log(email, password);
+    login(email, password);
   };
 
   return (
@@ -34,8 +39,15 @@ const Login = () => {
           required
         />
       </label>
+      {error && <p>{error} </p>}
 
-      <button className="btn"> Login </button>
+      {isPending ? (
+        <button className="btn" disabled>
+          Loading...
+        </button>
+      ) : (
+        <button className="btn"> Login </button>
+      )}
     </form>
   );
 };
