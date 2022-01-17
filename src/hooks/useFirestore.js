@@ -1,44 +1,87 @@
-import { useReducer, useEffect, useState } from "react";
-import { moneytorDb } from "../firebase/config";
+import { useReducer, useEffect, useState } from "react"
+import { moneytorDb, timestamp } from "../firebase/config"
 
 let initialState = {
   document: null,
   isPending: false,
   error: null,
   success: null,
-};
+}
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "IS_PENDING":
-      return { ...state, isPending: true };
-
+      return { isPending: true, document: null, success: false, error: null }
+    case "ADDED_DOCUMENT":
+      return {
+        isPending: false,
+        document: action.payload,
+        success: true,
+        error: null,
+      }
+    case "DELETED_DOCUMENT":
+      return {
+        isPending: false,
+        document: action.payload,
+        success: true,
+        error: null,
+      }
+    case "ERROR":
+      return {
+        isPending: false,
+        document: null,
+        success: false,
+        error: action.payload,
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
 export const useFirestore = (collection) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const [isCancelled, setIsCancelled] = useState(false);
+  const [response, dispatch] = useReducer(reducer, initialState)
+  const [isCancelled, setIsCancelled] = useState(false)
 
   //collection
-  const ref = moneytorDb.collection(collection);
+  const ref = moneytorDb.collection(collection)
+
+  //only dispatch if not cancelled
+  const dispatchIfNotCancelled = (action) => {
+    if (!isCancelled) {
+      dispatch(action)
+    }
+  }
 
   //add a document
   const addDocument = async (doc) => {
-    dispatch({ type: "IS_PENDGING" });
+    dispatch({ type: "IS_PENDGING" })
     try {
-      const adddDocument = await ref.add(doc);
-    } catch (err) {}
-  };
+      const createdAt = timestamp.fromDate(new Date())
+      const addDocument = await ref.add({ ...doc, createdAt })
+      dispatchIfNotCancelled({ type: "ADDED_DOCUMENT", payload: addDocument })
+    } catch (err) {
+      dispatchIfNotCancelled({ type: "ERROR", pyload: err.message })
+    }
+  }
 
   //delete document
-  const deleteDocument = async (id) => {};
+  const deleteDocument = async (id) => {
+    dispatch({ type: "IS_PENDING" })
+
+    try {
+      const deletedDocument = await ref.doc(id).delete()
+      dispatchIfNotCancelled({
+        type: "DELETED_DOCUMENT",
+        payload: deletedDocument,
+      })
+    } catch (err) {
+      dispatchIfNotCancelled({ type: "ERROR", pyload: err.message })
+    }
+  }
 
   useEffect(() => {
-    return () => setIsCancelled(true);
-  }, []);
+    return () => setIsCancelled(true)
+  }, [])
 
-  reuturn(addDocument, deleteDocument, state);
-};
+  return { addDocument, deleteDocument, response }
+}
