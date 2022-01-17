@@ -22,7 +22,7 @@ const reducer = (state, action) => {
     case "DELETED_DOCUMENT":
       return {
         isPending: false,
-        document: action.payload,
+        document: null,
         success: true,
         error: null,
       }
@@ -75,7 +75,7 @@ export const useFirestore = (collection) => {
         payload: deletedDocument,
       })
     } catch (err) {
-      dispatchIfNotCancelled({ type: "ERROR", pyload: err.message })
+      dispatchIfNotCancelled({ type: "ERROR", payload: err.message })
     }
   }
 
