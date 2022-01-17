@@ -1,21 +1,21 @@
-import { useState } from "react";
-import { useLogin } from "../../hooks/useLogin";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useState } from "react"
+import { useLogin } from "../../hooks/useLogin"
+// import { useAuthContext } from "../../hooks/useAuthContext"
 
 //styles
-import styles from "./Login.module.css";
+import styles from "./Login.module.css"
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { login, error, isPending } = useLogin();
-  const { user } = useAuthContext();
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const { login, error, isPending } = useLogin()
+  //   const { user } = useAuthContext();
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     // console.log(email, password);
-    login(email, password);
-  };
+    login(email, password)
+  }
 
   return (
     <form onSubmit={handleSubmit} className={styles["login-form"]}>
@@ -49,7 +49,7 @@ const Login = () => {
         <button className="btn"> Login </button>
       )}
     </form>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
