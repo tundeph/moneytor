@@ -4,7 +4,7 @@ import { useFirestore } from "../hooks/useFirestore"
 import styles from "./TransactionList.module.css"
 
 const TransactionList = ({ transactions }) => {
-  const { deleteDocument, response } = useFirestore()
+  const { deleteDocument, response } = useFirestore("transactions")
   console.log(response)
 
   return (
