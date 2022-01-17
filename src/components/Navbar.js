@@ -1,19 +1,21 @@
-import { NavLink, Link } from "react-router-dom";
-import { useLogout } from "../hooks/useLogout";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { NavLink, Link } from "react-router-dom"
+import { useLogout } from "../hooks/useLogout"
+import { useAuthContext } from "../hooks/useAuthContext"
 
 //styles
-import "./Navbar.css";
+import "./Navbar.css"
 
 const Navbar = () => {
-  const { logout } = useLogout();
-  const { user } = useAuthContext();
+  const { logout } = useLogout()
+  const { user } = useAuthContext()
 
   return (
     <nav className="navbar">
       <ul>
         <li className="title">
-          <Link to="/"> Moneytor </Link>
+          <Link to="/">
+            <img className="nav-logo" src="../moneytor.png" /> Moneytor
+          </Link>
         </li>
         {!user ? (
           <>
@@ -36,7 +38,7 @@ const Navbar = () => {
         )}
       </ul>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
