@@ -1,33 +1,33 @@
-import { useEffect, createContext, useReducer } from "react";
-import { moneytorAuth } from "../firebase/config";
+import { useEffect, createContext, useReducer } from "react"
+import { moneytorAuth } from "../firebase/config"
 
-export const AuthContext = createContext();
+export const AuthContext = createContext()
 
 export const reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      return { ...state, user: action.payload };
+      return { ...state, user: action.payload }
     case "LOGOUT":
-      return { ...state, user: null };
+      return { ...state, user: null }
     case "AUTH_IS_READY":
-      return { ...state, user: action.payload, authIsReady: true };
+      return { ...state, user: action.payload, authIsReady: true }
     default:
-      return state;
+      return state
   }
-};
+}
 
 export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {
     user: null,
     authIsReady: false,
-  });
+  })
 
   useEffect(() => {
     const unsub = moneytorAuth.onAuthStateChanged((user) => {
-      dispatch({ type: "AUTH_IS_READY", payload: user });
-      unsub();
-    });
-  }, []);
+      dispatch({ type: "AUTH_IS_READY", payload: user })
+      unsub()
+    })
+  }, [])
 
   //console.log("AuthContext state: ", state);
 
@@ -35,5 +35,5 @@ export const AuthContextProvider = ({ children }) => {
     <AuthContext.Provider value={{ ...state, dispatch }}>
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
