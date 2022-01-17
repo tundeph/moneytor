@@ -5,7 +5,7 @@ import styles from "./TransactionList.module.css"
 
 const TransactionList = ({ transactions }) => {
   const { deleteDocument, response } = useFirestore("transactions")
-  console.log(response)
+  //console.log(response)
 
   return (
     <ul className={styles.transactions}>
