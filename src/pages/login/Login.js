@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { useLogin } from "../../hooks/useLogin"
-// import { useAuthContext } from "../../hooks/useAuthContext"
 
 //styles
 import styles from "./Login.module.css"
@@ -9,7 +8,6 @@ const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const { login, error, isPending } = useLogin()
-  //   const { user } = useAuthContext();
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -22,12 +20,7 @@ const Login = () => {
       <h2> Login</h2>
       <label>
         <span>Email: </span>
-        <input
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-          required
-        />
+        <input type="email" onChange={(e) => setEmail(e.target.value)} value={email} required />
       </label>
 
       <label>
