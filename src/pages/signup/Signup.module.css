@@ -17,3 +17,7 @@
   color: #777;
   width: 100%;
 }
+
+.signup-form input:focus {
+  outline-color: #1f9751;
+}
